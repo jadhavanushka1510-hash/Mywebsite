@@ -27,7 +27,7 @@ else:
 # ---------------- SIDEBAR ----------------
 st.sidebar.title("🧭 Menu")
 
-# ---------------- LOGOUT BUTTON (NEW FIX) ----------------
+# ---------------- LOGOUT BUTTON ----------------
 if st.session_state.logged_in:
     if st.sidebar.button("🚪 Logout"):
         st.session_state.logged_in = False
@@ -55,8 +55,11 @@ if st.sidebar.button("🔑 Login"):
 if st.sidebar.button("📝 Signup"):
     st.switch_page("pages/signup.py")
 
+if st.sidebar.button("🎯 Recommendations"):
+    st.switch_page("pages/recommendation.py")
+
 # ---------------- BANNER ----------------
-st.image("images/laptop.jpg", use_container_width=True)
+st.image("images/HP laptop.jpg", use_container_width=True)
 
 st.markdown("---")
 
@@ -82,20 +85,20 @@ st.subheader("🔥 Featured Products")
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.image("images/laptop.jpg", use_container_width=True)
-    st.write("### Laptop")
+    st.image("images/HP laptop.jpg", use_container_width=True)
+    st.write("### HP Laptop")
     st.write("₹55,999")
     st.button("Add to Cart", key="laptop")
 
 with col2:
-    st.image("images/headphone.jpg", use_container_width=True)
-    st.write("### Headphones")
+    st.image("images/boat headphone.jpg", use_container_width=True)
+    st.write("### Boat Headphone")
     st.write("₹1,999")
     st.button("Add to Cart", key="headphone")
 
 with col3:
-    st.image("images/phone.webp", use_container_width=True)
-    st.write("### Smartphone")
+    st.image("images/samsung Galaxy S24.jpg", use_container_width=True)
+    st.write("### Samsung Galaxy S24")
     st.write("₹24,999")
     st.button("Add to Cart", key="phone")
 

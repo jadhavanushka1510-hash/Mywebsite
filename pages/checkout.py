@@ -24,14 +24,13 @@ if len(cart_items) == 0:
     st.warning("🛒 Your cart is empty.")
     st.stop()
 
-# ---------------- Total Calculation ----------------
+# ---------------- Total ----------------
 total = sum(item[3] for item in cart_items)
 
-st.subheader(f"🧾 Total Amount: ₹{total:,}")
+st.subheader(f"🧾 Total Amount : ₹{total:,}")
 
 st.markdown("---")
 
-# ---------------- Customer Details ----------------
 st.subheader("📦 Delivery Details")
 
 name = st.text_input("👤 Full Name")
@@ -42,21 +41,26 @@ pincode = st.text_input("📮 Pincode")
 
 payment = st.selectbox(
     "💳 Payment Method",
-    ["Cash on Delivery", "UPI", "Credit Card", "Debit Card"]
+    [
+        "Cash on Delivery",
+        "UPI",
+        "Credit Card",
+        "Debit Card"
+    ]
 )
 
 st.markdown("---")
 
-# ---------------- Place Order ----------------
-if st.button("✅ Place Order"):
+if st.button("🛍️ Place Order", use_container_width=True):
 
     if not name or not mobile or not address or not city or not pincode:
         st.error("❌ Please fill all details.")
+
     else:
 
-        # ✅ SAVE ORDER IN DATABASE (IMPORTANT FIX)
         cursor.execute("""
-        INSERT INTO orders(
+        INSERT INTO orders
+        (
             username,
             customer_name,
             phone,
@@ -66,7 +70,8 @@ if st.button("✅ Place Order"):
             total
         )
         VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (
+        """,
+        (
             st.session_state.username,
             name,
             mobile,
@@ -78,11 +83,27 @@ if st.button("✅ Place Order"):
 
         conn.commit()
 
-        # 🛒 Clear Cart
+        # Empty Cart
         cursor.execute("DELETE FROM cart")
         conn.commit()
 
-        st.success("🎉 Order Placed Successfully!")
         st.balloons()
 
-        st.info("📦 Thank you for your order!")
+        st.success("🎉 Order Placed Successfully!")
+
+        st.markdown("## ✅ Order Confirmation")
+
+        st.write(f"**Customer:** {name}")
+        st.write(f"**Mobile:** {mobile}")
+        st.write(f"**Address:** {address}")
+        st.write(f"**City:** {city}")
+        st.write(f"**Pincode:** {pincode}")
+        st.write(f"**Payment:** {payment}")
+        st.write(f"**Total Paid:** ₹{total:,}")
+
+        st.info("🚚 Your order will be delivered within 3-5 working days.")
+
+        st.success("🙏 Thank You For Shopping With ShopEasy!")
+
+        if st.button("🏠 Back To Home"):
+            st.switch_page("app.py")
