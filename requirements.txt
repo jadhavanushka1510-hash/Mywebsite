@@ -2,4 +2,4 @@ streamlit==1.48.1
 Pillow
 pandas
 numpy
-scikit-learngit 
+scikit-learn
