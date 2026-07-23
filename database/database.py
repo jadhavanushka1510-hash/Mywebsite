@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS users(
 )
 """)
 
-# ---------------- ORDERS TABLE (NEW FIX) ----------------
+# ---------------- ORDERS TABLE ----------------
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS orders(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -50,9 +50,17 @@ CREATE TABLE IF NOT EXISTS orders(
     address TEXT,
     city TEXT,
     pincode TEXT,
-    total INTEGER
+    total INTEGER,
+    status TEXT DEFAULT 'Pending'
 )
 """)
+
+# ---------------- ADD STATUS COLUMN IF MISSING ----------------
+try:
+    cursor.execute("ALTER TABLE orders ADD COLUMN status TEXT DEFAULT 'Pending'")
+except sqlite3.OperationalError:
+    # Column already exists
+    pass
 
 # ---------------- COMMIT ----------------
 conn.commit()
